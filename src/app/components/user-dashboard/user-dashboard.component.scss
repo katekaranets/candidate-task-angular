@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  padding: 0 0 30px 0;
+}
+
+.filter-form {
+  display: flex;
+  column-gap: 10px;
+  height: 56px;
+}
+
+::ng-deep {
+  .mat-mdc-table  th.mat-mdc-header-cell {
+    background-color: white;
+    color: #3f51b5;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .mat-mdc-row{
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.1);
+    }
+  }
+
+  div.mdc-notched-outline {
+    height: 56px;
+  }
+
+  .mat-mdc-select-arrow-wrapper .mat-mdc-select-arrow {
+    width: 30px;
+    left: 10px;
+  }
+}
+
+.table-container {
+  max-height: 580px;
+  overflow: scroll;
+  box-shadow: 0px 0px 7px lightgray;
+  margin-top: 30px;
+  border-radius: 4px;
+}
+
+.not-found {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.6);
+}
