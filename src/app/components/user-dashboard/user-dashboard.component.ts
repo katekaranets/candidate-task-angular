@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, startWith } from 'rxjs';
+import { combineLatest, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
@@ -19,7 +19,7 @@ import { selectUsersList } from 'src/app/store/selectors/users.selector';
   providers: [UserFilterService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserDashboardComponent implements OnInit {
+export class UserDashboardComponent implements OnInit, OnDestroy {
   public users$: Observable<User[]>;
   public filteredUsers$!: Observable<User[]>;
 
@@ -51,6 +51,8 @@ export class UserDashboardComponent implements OnInit {
   public roles = Object.values(UserRole);
   public statuses = Object.values(UserStatus);
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -63,6 +65,11 @@ export class UserDashboardComponent implements OnInit {
     this.store.dispatch(loadUsers());
     this.initForm();
     this.setupFilteredUsers();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   initForm() {
@@ -78,6 +85,7 @@ export class UserDashboardComponent implements OnInit {
       this.users$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
     ]).pipe(
+      takeUntil(this.destroy$),
       map(([users, filters]) => this.userFilterService.filterUsers(users, filters))
     );
   }
