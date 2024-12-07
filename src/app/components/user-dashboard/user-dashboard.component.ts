@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,8 @@ import { selectUsersList } from 'src/app/store/selectors/users.selector';
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.scss'],
-  providers: [UserFilterService]
+  providers: [UserFilterService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDashboardComponent implements OnInit {
   public users$: Observable<User[]>;
