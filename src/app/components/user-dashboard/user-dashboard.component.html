@@ -1,6 +1,31 @@
 <h1>Users</h1>
+
+<form class="filter-form" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Role</mat-label>
+    <mat-select formControlName="role" name="role">
+      <mat-option>None</mat-option>
+      @for (role of roles; track role) {
+        <mat-option [value]="role">{{role}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" name="status">
+      <mat-option>None</mat-option>
+      @for (status of statuses; track status) {
+        <mat-option [value]="status">{{status}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>
 <div class="table-container">
-  <table mat-table [dataSource]="users$" class="mat-elevation-z8 demo-table">
+  <table mat-table [dataSource]="filteredUsers$" class="mat-elevation-z8 demo-table">
     @for (column of columns; track column) {
       <ng-container [matColumnDef]="column.columnDef">
         <th mat-header-cell *matHeaderCellDef>
@@ -15,6 +40,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToUserDetails(row)"></tr>
   </table>
+  <div class="not-found" *ngIf="!(filteredUsers$ | async)?.length">
+    No user matches the search criteria
+  </div>
 </div>
 
 

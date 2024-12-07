@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 
+import { UserRole } from 'src/app/models/role';
+import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
+import { UserFilterService } from 'src/app/services/user-filter.service';
 import { loadUsers } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
 import { selectUsersList } from 'src/app/store/selectors/users.selector';
@@ -11,10 +15,15 @@ import { selectUsersList } from 'src/app/store/selectors/users.selector';
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
-  styleUrls: ['./user-dashboard.component.scss']
+  styleUrls: ['./user-dashboard.component.scss'],
+  providers: [UserFilterService]
 })
 export class UserDashboardComponent implements OnInit {
   public users$: Observable<User[]>;
+  public filteredUsers$!: Observable<User[]>;
+
+  public form!: FormGroup;
+
   public columns = [
     {
       columnDef: 'name',
@@ -38,16 +47,38 @@ export class UserDashboardComponent implements OnInit {
     },
   ];
   public displayedColumns = this.columns.map(c => c.columnDef);
+  public roles = Object.values(UserRole);
+  public statuses = Object.values(UserStatus);
 
   constructor(
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private userFilterService: UserFilterService
   ) {
     this.users$ = this.store.select(selectUsersList);
   }
 
   ngOnInit() {
     this.store.dispatch(loadUsers());
+    this.initForm();
+    this.setupFilteredUsers();
+  }
+
+  initForm() {
+    this.form = new FormGroup({
+      name: new FormControl(''),
+      role: new FormControl(''),
+      status: new FormControl(''),
+    });
+  }
+
+  setupFilteredUsers() {
+    this.filteredUsers$ = combineLatest([
+      this.users$,
+      this.form.valueChanges.pipe(startWith(this.form.value)),
+    ]).pipe(
+      map(([users, filters]) => this.userFilterService.filterUsers(users, filters))
+    );
   }
 
   goToUserDetails(data: any) {
