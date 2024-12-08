@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { Observable, startWith, Subject, takeUntil } from 'rxjs';
 
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
@@ -75,13 +75,16 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
 
   public listenToFiltersChanges() {
     this.form.valueChanges
-      .pipe(startWith(this.form.value))
+      .pipe(
+        takeUntil(this.destroy$),
+        startWith(this.form.value)
+      )
       .subscribe(value => {
         this.store.dispatch(filterUsers({ filters: value }));
       })
   }
 
-  public goToUserDetails(data: any) {
+  public goToUserDetails(data: User) {
     this.router.navigate(['/users', data.id]);
   }
 

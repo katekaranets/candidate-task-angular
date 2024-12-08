@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UserFilters } from 'src/app/models/filters';
 
 import { User } from 'src/app/models/user';
 
@@ -11,6 +12,6 @@ export const loadUsersFailure = createAction('[Users] Load Users Failure', props
 export const selectUser = createAction('[Users] Select User', props<{ userId: number }>());
 export const updateUser = createAction('[Users] Update User', props<{ userId: number, user: User }>());
 
-export const filterUsers = createAction('[Users] Filter Users', props<{ filters: any }>());
+export const filterUsers = createAction('[Users] Filter Users', props<{ filters: UserFilters }>());
 export const filterUsersSuccess = createAction('[Users] Filter Users Success', props<{ filteredUsers: User[] }>());
 export const filterUsersFailure = createAction('[Users] Filter Users Failure', props<{ error: string }>());

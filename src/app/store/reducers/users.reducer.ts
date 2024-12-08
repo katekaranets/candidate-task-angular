@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { User } from 'src/app/models/user';
+import { UserFilters } from 'src/app/models/filters';
 import {
   loadUsers,
   loadUsersSuccess,
@@ -15,7 +16,7 @@ import {
 export interface UsersState {
   users: User[];
   filteredUsers: User[];
-  filters: any;
+  filters: UserFilters;
   currentUserId: number | null;
   loading: boolean;
   error: string | null;

@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 
 import { User } from "../models/user";
+import { UserFilters } from "../models/filters";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserFilterService {
-  filterUsers(users: User[], filters: any): User[] {
+  filterUsers(users: User[], filters: UserFilters): User[] {
     const { name, status, role } = filters;
 
     return users.filter(user => {

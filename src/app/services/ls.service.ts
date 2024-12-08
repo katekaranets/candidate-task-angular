@@ -1,22 +1,32 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { AppState } from '../store/app.state';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService {
+export class LocalStorageService implements OnDestroy {
   private readonly localStorageKey = 'users';
+  private destroy$ = new Subject<void>();
 
   constructor(private store: Store<AppState>) {
     this.init();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   init(): void {
     this.store
-      .pipe(debounceTime(500)) 
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500)
+      ) 
       .subscribe((state) => {
         this.saveStateToLocalStorage(state);
       });
