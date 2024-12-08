@@ -1,20 +1,33 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { User } from 'src/app/models/user';
-import { loadUsers, loadUsersSuccess, loadUsersFailure, selectUser, updateUser } from '../actions/users.actions';
+import {
+  loadUsers,
+  loadUsersSuccess,
+  loadUsersFailure,
+  selectUser,
+  updateUser,
+  filterUsers,
+  filterUsersSuccess,
+  filterUsersFailure 
+} from '../actions/users.actions';
 
 export interface UsersState {
   users: User[];
+  filteredUsers: User[];
+  filters: any;
+  currentUserId: number | null;
   loading: boolean;
   error: string | null;
-  currentUserId: number | null;
 }
 
 export const initialState: UsersState = {
   users: [],
+  filteredUsers: [],
+  filters: {},
+  currentUserId: null,
   loading: false,
   error: null,
-  currentUserId: null
 };
 
 export const usersReducer = createReducer(
@@ -26,5 +39,8 @@ export const usersReducer = createReducer(
   on(updateUser, (state, { userId, user }) => ({
     ...state,
     users: state.users.map(u => (u.id === userId? { ...u, ...user } : u)),
-  }))
+  })),
+  on(filterUsers, (state, { filters }) => ({ ...state, filters })),
+  on(filterUsersSuccess, (state, { filteredUsers }) => ({ ...state, filteredUsers })),
+  on(filterUsersFailure, (state, { error }) => ({ ...state, loading: false, error })),
 );

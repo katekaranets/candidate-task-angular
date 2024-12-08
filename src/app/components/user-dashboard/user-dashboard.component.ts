@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
@@ -8,9 +8,9 @@ import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
 import { UserFilterService } from 'src/app/services/user-filter.service';
-import { loadUsers } from 'src/app/store/actions/users.actions';
+import { filterUsers, loadUsers } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
-import { selectUsersList } from 'src/app/store/selectors/users.selector';
+import { selectFilteredUsers, selectUsersList } from 'src/app/store/selectors/users.selector';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -23,7 +23,7 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   public users$: Observable<User[]>;
   public filteredUsers$!: Observable<User[]>;
 
-  public form!: FormGroup;
+  public form: FormGroup;
 
   public columns = [
     {
@@ -56,15 +56,16 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private userFilterService: UserFilterService
+    private fb: FormBuilder
   ) {
     this.users$ = this.store.select(selectUsersList);
+    this.form = this.createForm()
   }
 
   ngOnInit() {
     this.store.dispatch(loadUsers());
-    this.initForm();
-    this.setupFilteredUsers();
+    this.filteredUsers$ = this.store.select(selectFilteredUsers);
+    this.listenToFiltersChanges();
   }
 
   ngOnDestroy() {
@@ -72,25 +73,23 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  initForm() {
-    this.form = new FormGroup({
-      name: new FormControl(''),
-      role: new FormControl(''),
-      status: new FormControl(''),
-    });
+  public listenToFiltersChanges() {
+    this.form.valueChanges
+      .pipe(startWith(this.form.value))
+      .subscribe(value => {
+        this.store.dispatch(filterUsers({ filters: value }));
+      })
   }
 
-  setupFilteredUsers() {
-    this.filteredUsers$ = combineLatest([
-      this.users$,
-      this.form.valueChanges.pipe(startWith(this.form.value)),
-    ]).pipe(
-      takeUntil(this.destroy$),
-      map(([users, filters]) => this.userFilterService.filterUsers(users, filters))
-    );
-  }
-
-  goToUserDetails(data: any) {
+  public goToUserDetails(data: any) {
     this.router.navigate(['/users', data.id]);
+  }
+
+  private createForm(): FormGroup {
+    return this.fb.group({
+      name: [''],
+      role: [''],
+      status: ['']
+    });
   }
 }
