@@ -28,8 +28,8 @@ describe('Users Reducer', () => {
       name: 'Jane Smith',
       email: 'jane@example.com',
       role: UserRole.DataEngineer,
-      status: UserStatus.Active, joining_date: 1620691200000
-
+      status: UserStatus.Active, 
+      joining_date: 1620691200000
     },
   ];
 
