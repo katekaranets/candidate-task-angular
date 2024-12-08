@@ -1,12 +1,12 @@
 .go-back-link {
-  color: #3f51b5;
+  color: var(--accent-color);
   display: flex;
   align-items: center;
   padding: 10px;
   text-decoration: none;
 
   &:hover {
-    color: #1a237e;
+    color: var(--dark-accent-color);
   }
 
   mat-icon {
@@ -14,13 +14,6 @@
     line-height: 20px;
     height: 20px;
   }
-}
-
-hr {
-  border: none;
-  height: 1px;
-  color: #5e5e5e;
-  background-color: #5e5e5e;
 }
 
 .form-container {
@@ -59,11 +52,11 @@ hr {
 .edit-button {
   background-color: transparent;
   border: none;
-  color: #3f51b5;
+  color: var(--accent-color);
   cursor: pointer;
 
   :hover {
-    color: #1a237e;
+    color: var(--dark-accent-color);
   }
 }
 
@@ -86,7 +79,7 @@ hr {
     font-weight: 300;
     font-size: 14px;
     line-height: 14px;
-    color: #5e5e5e;
+    color: var(--text-light-color);
   }
   > .value {
     font-size: 16px;

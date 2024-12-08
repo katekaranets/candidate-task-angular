@@ -25,7 +25,11 @@ export interface UsersState {
 export const initialState: UsersState = {
   users: [],
   filteredUsers: [],
-  filters: {},
+  filters: {
+    name: '',
+    status: undefined,
+    role: undefined
+  },
   currentUserId: null,
   loading: false,
   error: null,
