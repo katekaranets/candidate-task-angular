@@ -9,7 +9,7 @@ import { UserFilterService } from 'src/app/services/user-filter.service';
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
-import { loadUsers } from 'src/app/store/actions/users.actions';
+import { filterUsers, loadUsers } from 'src/app/store/actions/users.actions';
 
 describe('UserDashboardComponent', () => {
   let component: UserDashboardComponent;
@@ -74,16 +74,27 @@ describe('UserDashboardComponent', () => {
 
   it('should load users on init', () => {
     const dispatchSpy = mockStore.dispatch;
-    const setupFilteredUsersSpy = spyOn(component, 'setupFilteredUsers');
+    const listenToFiltersChangesSpy = spyOn(component, 'listenToFiltersChanges');
 
     component.ngOnInit();
 
     expect(dispatchSpy).toHaveBeenCalledWith(loadUsers());
-    expect(setupFilteredUsersSpy).toHaveBeenCalled();
+    expect(listenToFiltersChangesSpy).toHaveBeenCalled();
+  });
+
+
+  it('should filter users when filter inputs updated', () => {
+    component.listenToFiltersChanges();
+
+    component.form.get('name')?.setValue('Thom')
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(filterUsers({ 
+      filters: { name: 'Thom', role: '', status: '' } 
+    }));
   });
 
   it('should navigate to user details page', () => {
-    const user = { id: 1 };
+    const user = mockUsers[0];
   
     component.goToUserDetails(user);
   

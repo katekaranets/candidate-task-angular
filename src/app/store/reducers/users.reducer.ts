@@ -27,8 +27,8 @@ export const initialState: UsersState = {
   filteredUsers: [],
   filters: {
     name: '',
-    status: undefined,
-    role: undefined
+    status: '',
+    role: ''
   },
   currentUserId: null,
   loading: false,

@@ -6,15 +6,11 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
+import { UserDetailsState } from 'src/app/models/user-details-state';
 import { User } from 'src/app/models/user';
 import { selectUser, updateUser } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
 import { selectCurrentUser } from 'src/app/store/selectors/users.selector';
-
-enum UserDetailsState {
-  EDIT = 'edit',
-  VIEW = 'view'
-}
 
 @Component({
   selector: 'app-user-details',

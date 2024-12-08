@@ -3,6 +3,6 @@ import { UserStatus } from "./status";
 
 export interface UserFilters {
   name: string;
-  role: UserRole | undefined;
-  status: UserStatus | undefined;
+  role: UserRole | string;
+  status: UserStatus | string;
 }

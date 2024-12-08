@@ -7,7 +7,6 @@ import { Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
-import { UserFilterService } from 'src/app/services/user-filter.service';
 import { filterUsers, loadUsers } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
 import { selectFilteredUsers, selectUsersList } from 'src/app/store/selectors/users.selector';
@@ -16,7 +15,6 @@ import { selectFilteredUsers, selectUsersList } from 'src/app/store/selectors/us
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.scss'],
-  providers: [UserFilterService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDashboardComponent implements OnInit, OnDestroy {
