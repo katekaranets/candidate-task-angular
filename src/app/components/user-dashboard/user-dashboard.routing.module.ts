@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: UserDashboardComponent,
-  }
+  },
+  {
+    path: ':id',
+    loadChildren: () => import('../user-details/user-details.module').then(m => m.UserDetailsModule),
+  },
 ];
 
 @NgModule({

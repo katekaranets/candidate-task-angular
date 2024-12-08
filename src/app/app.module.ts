@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserDashboardModule } from './components/user-dashboard/user-dashboard.module';
+import { UserDetailsModule } from './components/user-details/user-details.module';
 import { UsersEffects } from './store/effects/users.effects';
 import { usersReducer } from './store/reducers/users.reducer';
 
@@ -22,7 +23,8 @@ import { usersReducer } from './store/reducers/users.reducer';
     BrowserAnimationsModule,
     StoreModule.forRoot({ users: usersReducer }),
     EffectsModule.forRoot(UsersEffects),
-    UserDashboardModule
+    UserDashboardModule,
+    UserDetailsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

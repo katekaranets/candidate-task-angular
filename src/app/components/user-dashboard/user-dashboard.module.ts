@@ -10,6 +10,7 @@ import { UsersEffects } from 'src/app/store/effects/users.effects';
 import { UserDashboardComponent } from './user-dashboard.component';
 import { UserDashboardRoutingModule } from './user-dashboard.routing.module';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatSelectModule, 
     FormsModule,
+    MatIconModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([UsersEffects]),
     UserDashboardRoutingModule

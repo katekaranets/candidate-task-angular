@@ -1,0 +1,107 @@
+<a class="go-back-link" routerLink="users"> <mat-icon>arrow_back_ios</mat-icon>Go Back to Users</a>
+<div class="form-container">
+  <div class="user-avatar-container">
+    <div class="user-avatar">
+      <img src="assets/images/avatar-placeholder.svg" width="40" alt="avatar" />
+    </div>
+    <div class="user-name">
+      <span>{{(user$ | async)?.name}}</span>
+      <button
+        *ngIf="state === userDetailsState.VIEW"
+        class="edit-button"
+        type="button"
+        color="primary"
+        (click)="editUser()"
+        aria-label="Edit user"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="state === userDetailsState.VIEW" class="user-view">
+    <div class="user-field-view">
+      <span class="label">Email</span>
+      <span class="value">{{(user$ | async)?.email}}</span>
+    </div>
+    <div class="user-field-view">
+      <span class="label">Role</span>
+      <span class="value">{{(user$ | async)?.role}}</span>
+    </div>
+    <div class="user-field-view">
+      <span class="label">Status</span>
+      <span class="value">{{(user$ | async)?.status}}</span>
+    </div>
+    <div class="user-field-view">
+      <span class="label">Joining Date</span>
+      <span class="value">{{(user$ | async)?.joining_date | date: 'mediumDate' }}</span>
+    </div>
+  </div>
+
+  <form *ngIf="state === userDetailsState.EDIT" class="user-form" [formGroup]="form" (submit)="saveUser()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+        <span *ngIf="form.get('name')?.errors?.['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+        <span *ngIf="form.get('email')?.errors?.['required']">This field is mandatory.</span>
+        <span *ngIf="form.get('email')?.errors?.['email'] || form.get('email')?.errors?.['pattern']">This field is invalid.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" name="role">
+        <mat-option>None</mat-option>
+        @for (role of roles; track role) {
+          <mat-option [value]="role">{{role}}</mat-option>
+        }
+      </mat-select>
+      <mat-error *ngIf="form.get('role')?.touched && form.get('role')?.invalid">
+        <span *ngIf="form.get('role')?.errors?.['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" name="status">
+        <mat-option>None</mat-option>
+        @for (status of statuses; track status) {
+          <mat-option [value]="status">{{status}}</mat-option>
+        }
+      </mat-select>
+      <mat-error *ngIf="form.get('status')?.touched && form.get('status')?.invalid">
+        <span *ngIf="form.get('status')?.errors?.['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+    <div class="user-field-view">
+      <span class="label">Joining Date</span>
+      <span class="value">{{(user$ | async)?.joining_date | date}}</span>
+    </div>
+
+    <div class="button-container">
+      <button
+        type="button"
+        class="base-button"
+        mat-flat-button
+        color="secondary"
+        (click)="cancelEditUser()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="base-button"
+        mat-flat-button
+        color="primary"
+        [disabled]="form.invalid || form.untouched || form.pristine"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
