@@ -7,8 +7,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { UserDashboardModule } from './components/user-dashboard/user-dashboard.module';
-import { UserDetailsModule } from './components/user-details/user-details.module';
+import { UserDashboardModule } from './features/user-dashboard/user-dashboard.module';
+import { UserDetailsModule } from './features/user-details/user-details.module';
 import { UsersEffects } from './store/effects/users.effects';
 import { usersReducer } from './store/reducers/users.reducer';
 

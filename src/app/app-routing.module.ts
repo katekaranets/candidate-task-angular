@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'users', loadChildren: () => import('./components/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule) },
+  { path: 'users', loadChildren: () => import('./features/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule) },
   { path: '', redirectTo: 'users', pathMatch: 'full' },
   { path: '**', redirectTo: 'users' },
 ];
