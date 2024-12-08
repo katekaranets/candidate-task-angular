@@ -1,65 +1,71 @@
-## Senior Frontend Engineer Assessment Task
 
-### **Overview**
+# Candidate Task Angular
 
-Create an employee management application using Angular, RxJS, and NgRx. The application should allow users to browse a list of
-users, view user details, and edit user details. The goal is to demonstrate your expertise in Angular architecture,
-state management, reactive programming, and writing unit tests.
+This is a simple Angular-based application that demonstrates various concepts such as state management using NgRx, reactive forms, and Angular Material for UI components.
 
-### **Project Requirements**
+---
 
-**Application Features**
+## Getting Started
 
-- **User List:**
-  - Display a list of employees with basic information (name, email, role, and status).
-    - You can use mock data or fetch data from a mock API.
-  - Include a way to filter users, e.g. by name, email, or status.
+### Prerequisites
 
-- **User Details:**
-  - Display detailed information about a selected user (name, email, role, status, joining date).
-  - Include a way to edit the user details.
+I used Node.js v18.13.0 and npm v8.19.3; 
 
-**State Management with NgRx**
+---
 
-- Implement global state management for users.
-- Create actions, reducers, and selectors for managing user state.
+### Installation
 
-**Reactive Programming with RxJS**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/katekaranets/candidate-task-angular.git
+   ```
 
-- Use RxJS operators to manage state, transform data streams, and handle asynchronous operations.
+2. Navigate to the project directory:
+   ```bash
+   cd candidate-task-angular
+   ```
 
-**Unit Testing**
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- Use Jasmine and Karma to write a few unit tests.
+---
 
-**Styling**
+### Running the Project
 
-- Use SCSS for basic styling.
-- You may use Angular Material or any other UI library for a polished UI.
+1. Start the development server:
+   ```bash
+   npm start
+   ```
+   By default, the application runs on `http://localhost:4200`.
 
-**Documentation**
+2. Build the project for production:
+   ```bash
+   npm run build
+   ```
 
-- Provide a README file with instructions on how to set up and run the application.
+3. Run tests:
+   ```bash
+   npm test
+   ```
 
-### **Optional Features**
+4. Generate code coverage reports:
+   ```bash
+   npm run test:coverage
+   ```
 
-- **Persistent Storage:** Use local storage or session storage to persist state across page reloads.
+5. Lint the project:
+   ```bash
+   npm run lint
+   ```
 
-### **Submission Instructions**
+---
 
-1. Fork the repository.
-2. Commit your code regularly to show your progress.
-3. Ensure that the application runs without errors.
-4. Submit the GitHub repository link with your final submission.
+### Project Structure
 
-### **Evaluation Criteria**
+- **`src/app`**: Contains the core application logic, components, services, and state management files.
+- **`src/assets`**: Holds static files like mock data and images.
+- **`angular.json`**: Configuration for the Angular CLI.
+- **`package.json`**: Lists project dependencies and scripts.
 
-- **Code Quality:** Clean, readable, and maintainable code.
-- **Application Structure:** Proper use of Angular modules, components, services, and NgRx.
-- **State Management:** Effective use of NgRx for global state management.
-- **Reactive Programming:** Demonstration of RxJS for handling data streams and asynchronous operations.
-- **Functionality:** Implementation of all required features and optional features.
-- **Testing:** Coverage and quality of tests.
-- **User Experience:** Aesthetic and functional UI/UX design. Responsive UI is not necessary in this task.
-
-Good luck! We look forward to reviewing your submission.
