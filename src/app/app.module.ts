@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
@@ -11,6 +11,7 @@ import { UserDashboardModule } from './features/user-dashboard/user-dashboard.mo
 import { UserDetailsModule } from './features/user-details/user-details.module';
 import { UsersEffects } from './store/effects/users.effects';
 import { usersReducer } from './store/reducers/users.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,19 @@ import { usersReducer } from './store/reducers/users.reducer';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({ users: usersReducer }),
-    EffectsModule.forRoot(UsersEffects),
     UserDashboardModule,
-    UserDetailsModule
+    UserDetailsModule,
+    EffectsModule.forRoot(UsersEffects),
+    StoreModule.forRoot({ users: usersReducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+      connectInZone: true
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

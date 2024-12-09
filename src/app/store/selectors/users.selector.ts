@@ -9,10 +9,9 @@ export const selectUsersList = createSelector(
   (usersState: UsersState) => usersState.users
 );
 
-export const selectCurrentUser = createSelector(
+export const selectUser = createSelector(
   selectUsersState,
-  (state: UsersState) =>
-    state.currentUserId ? state.users.find(user => user.id === state.currentUserId) : null
+  (usersState: UsersState) => usersState.user
 );
 
 export const selectFilteredUsers = createSelector(

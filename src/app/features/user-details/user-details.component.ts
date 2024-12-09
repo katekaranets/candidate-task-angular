@@ -8,9 +8,9 @@ import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { UserDetailsState } from 'src/app/models/user-details-state';
 import { User } from 'src/app/models/user';
-import { selectUser, updateUser } from 'src/app/store/actions/users.actions';
+import { loadUser, updateUser } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
-import { selectCurrentUser } from 'src/app/store/selectors/users.selector';
+import { selectUser } from 'src/app/store/selectors/users.selector';
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +19,7 @@ import { selectCurrentUser } from 'src/app/store/selectors/users.selector';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
-  public user$: Observable<User | null | undefined>;
+  public user$: Observable<User>;
   public form: FormGroup;
   public state: UserDetailsState = UserDetailsState.VIEW;
   public userDetailsState = UserDetailsState;
@@ -27,7 +27,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public roles = Object.values(UserRole);
   public statuses = Object.values(UserStatus);
 
-  private user: User | null | undefined;
+  private user!: User;
   private userId: number;
   private destroy$ = new Subject<void>();
 
@@ -37,16 +37,14 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.userId = +this.route.snapshot.paramMap.get('id')!;
-    this.user$ = this.store.select(selectCurrentUser);
+    this.user$ = this.store.select(selectUser);
 
     this.form = this.createForm();
   }
 
   ngOnInit(): void {
-    if (this.userId) {
-      this.store.dispatch(selectUser({ userId: this.userId }));
-      this.initializeUser();
-    }
+    this.loadUser();
+    this.initializeUser();
   }
 
   ngOnDestroy(): void {
@@ -67,9 +65,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public cancelEditUser(): void{
     if (this.user) {
-      this.form.patchValue(this.user);
-      this.form.markAsPristine();
-      this.form.markAsUntouched();
+      this.form.reset(this.user);
       this.setState(UserDetailsState.VIEW);
     }
   }
@@ -88,6 +84,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       role: ['', [Validators.required]],
       status: ['', [Validators.required]]
     });
+  }
+
+  private loadUser(): void {
+    if (this.userId) {
+      this.store.dispatch(loadUser({ userId: this.userId }));
+    }
   }
 
   private initializeUser(): void {

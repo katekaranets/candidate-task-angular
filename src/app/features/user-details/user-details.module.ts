@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { UserDetailsComponent } from './user-details.component';
 import { UserDetailsRoutingModule } from './user-details.routing';
+import { EffectsModule } from '@ngrx/effects';
+import { UsersEffects } from 'src/app/store/effects/users.effects';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { UserDetailsRoutingModule } from './user-details.routing';
     MatInputModule,
     MatSelectModule, 
     MatIconModule,
-    UserDetailsRoutingModule
+    UserDetailsRoutingModule,
+    EffectsModule.forFeature([UsersEffects]),
   ],
   providers: [],
 })

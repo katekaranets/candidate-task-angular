@@ -35,7 +35,7 @@ describe('Users Reducer', () => {
 
   it('should return the initial state for an unknown action', () => {
     const action = { type: 'Unknown' };
-    const state = usersReducer(initialState, action as any);
+    const state = usersReducer(initialState, action as any); // eslint-disable-line @typescript-eslint/no-explicit-any
 
     expect(state).toEqual(initialState);
   });

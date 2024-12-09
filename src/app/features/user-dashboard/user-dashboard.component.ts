@@ -18,8 +18,8 @@ import { selectFilteredUsers, selectUsersList } from 'src/app/store/selectors/us
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDashboardComponent implements OnInit, OnDestroy {
-  public users$: Observable<User[]>;
-  public filteredUsers$!: Observable<User[]>;
+  public users$: Observable<Partial<User>[]>;
+  public filteredUsers$!: Observable<Partial<User>[]>;
 
   public form: FormGroup;
 

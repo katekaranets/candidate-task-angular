@@ -15,7 +15,7 @@ import { updateUser } from 'src/app/store/actions/users.actions';
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
-  let storeMock: any;
+  let storeMock: any; 
   let activatedRouteMock: any;
   let debugElement: DebugElement;
 

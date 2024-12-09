@@ -6,33 +6,44 @@ import {
   loadUsers,
   loadUsersSuccess,
   loadUsersFailure,
-  selectUser,
   updateUser,
   filterUsers,
   filterUsersSuccess,
-  filterUsersFailure 
+  filterUsersFailure, 
+  updateUserSuccess,
+  updateUserFailure,
+  loadUser,
+  loadUserFailure,
+  loadUserSuccess
 } from '../actions/users.actions';
 
 export interface UsersState {
-  users: User[];
-  filteredUsers: User[];
+  users: Partial<User>[];
+  user: User;
+  filteredUsers: Partial<User>[];
   filters: UserFilters;
-  currentUserId: number | null;
   loading: boolean;
   error: string | null;
 }
 
 export const initialState: UsersState = {
   users: [],
+  user: {
+    name: '',
+    email: '',
+    id: null,
+    joining_date:  null,
+    role: '',
+    status: ''
+  },
   filteredUsers: [],
   filters: {
     name: '',
     status: '',
     role: ''
   },
-  currentUserId: null,
   loading: false,
-  error: null,
+  error: null
 };
 
 export const usersReducer = createReducer(
@@ -40,12 +51,18 @@ export const usersReducer = createReducer(
   on(loadUsers, (state) => ({ ...state, loading: true })),
   on(loadUsersSuccess, (state, { users }) => ({ ...state, loading: false, users })),
   on(loadUsersFailure, (state, { error }) => ({ ...state, loading: false, error })),
-  on(selectUser, (state, { userId }) => ({ ...state, currentUserId: userId })),
-  on(updateUser, (state, { userId, user }) => ({
+  on(loadUser, (state) => ({ ...state, loading: true })),
+  on(loadUserSuccess, (state, { user }) => ({ ...state, loading: false, user })),
+  on(loadUserFailure, (state, { error }) => ({ ...state, loading: false, error })),
+  on(updateUser, (state) => ({ ...state, loading: true})),
+  on(updateUserSuccess, (state, { user }) => ({
     ...state,
-    users: state.users.map(u => (u.id === userId? { ...u, ...user } : u)),
+    loading: false,
+    user,
+    users: state.users.map(u => (u.id === user.id? { ...u, ...user } : u)),
   })),
+  on(updateUserFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(filterUsers, (state, { filters }) => ({ ...state, filters })),
   on(filterUsersSuccess, (state, { filteredUsers }) => ({ ...state, filteredUsers })),
-  on(filterUsersFailure, (state, { error }) => ({ ...state, loading: false, error })),
+  on(filterUsersFailure, (state, { error }) => ({ ...state, error })),
 );
