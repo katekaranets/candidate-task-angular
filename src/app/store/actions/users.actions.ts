@@ -3,8 +3,6 @@ import { UserFilters } from 'src/app/models/filters';
 
 import { User } from 'src/app/models/user';
 
-export const appInitialize = createAction('[App] Initialize');
-
 export const loadUsers = createAction('[Users] Load Users');
 export const loadUsersSuccess = createAction('[Users] Load Users Success', props<{ users: Partial<User>[] }>());
 export const loadUsersFailure = createAction('[Users] Load Users Failure', props<{ error: string }>());

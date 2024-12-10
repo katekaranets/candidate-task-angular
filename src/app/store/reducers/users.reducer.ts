@@ -19,6 +19,7 @@ import {
 
 export interface UsersState {
   users: Partial<User>[];
+  usersLoaded: boolean;
   user: User;
   filteredUsers: Partial<User>[];
   filters: UserFilters;
@@ -28,6 +29,7 @@ export interface UsersState {
 
 export const initialState: UsersState = {
   users: [],
+  usersLoaded: false,
   user: {
     name: '',
     email: '',
@@ -49,18 +51,13 @@ export const initialState: UsersState = {
 export const usersReducer = createReducer(
   initialState,
   on(loadUsers, (state) => ({ ...state, loading: true })),
-  on(loadUsersSuccess, (state, { users }) => ({ ...state, loading: false, users })),
+  on(loadUsersSuccess, (state, { users }) => ({ ...state, loading: false, users, usersLoaded: true })),
   on(loadUsersFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(loadUser, (state) => ({ ...state, loading: true })),
   on(loadUserSuccess, (state, { user }) => ({ ...state, loading: false, user })),
   on(loadUserFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(updateUser, (state) => ({ ...state, loading: true})),
-  on(updateUserSuccess, (state, { user }) => ({
-    ...state,
-    loading: false,
-    user,
-    users: state.users.map(u => (u.id === user.id? { ...u, ...user } : u)),
-  })),
+  on(updateUserSuccess, (state, { user }) => ({ ...state, loading: false, user })),
   on(updateUserFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(filterUsers, (state, { filters }) => ({ ...state, filters })),
   on(filterUsersSuccess, (state, { filteredUsers }) => ({ ...state, filteredUsers })),

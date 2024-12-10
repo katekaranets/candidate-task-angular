@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { UserService } from 'src/app/services/user.service';
 import {
   loadUsersSuccess,
   loadUsersFailure,
-  appInitialize,
   filterUsers,
   filterUsersSuccess,
   filterUsersFailure,
@@ -36,7 +35,7 @@ export class UsersEffects {
 
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appInitialize),
+      ofType(loadUsers, updateUserSuccess),
       mergeMap(() => {
         return this.userService.getUsers().pipe(
           map((users) => {
@@ -70,13 +69,6 @@ export class UsersEffects {
           catchError(error => of(updateUserFailure({ error: error.message })))
         )
       )
-    )
-  );
-
-  updateUserSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(updateUserSuccess),
-      map(() => loadUsers())
     )
   );
 

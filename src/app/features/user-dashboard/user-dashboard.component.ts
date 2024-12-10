@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { Observable, startWith, Subject, take, takeUntil } from 'rxjs';
 
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
 import { filterUsers, loadUsers } from 'src/app/store/actions/users.actions';
 import { AppState } from 'src/app/store/app.state';
-import { selectFilteredUsers, selectUsersList } from 'src/app/store/selectors/users.selector';
+import { selectFilteredUsers, selectUsersList, selectUsersLoaded } from 'src/app/store/selectors/users.selector';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -61,7 +61,14 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(loadUsers());
+    this.store
+      .select(selectUsersLoaded)
+      .pipe(take(1))
+      .subscribe(userLoaded => {
+        if (!userLoaded) {
+          this.store.dispatch(loadUsers());
+        }
+      });
     this.filteredUsers$ = this.store.select(selectFilteredUsers);
     this.listenToFiltersChanges();
   }

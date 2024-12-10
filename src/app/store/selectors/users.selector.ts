@@ -18,3 +18,8 @@ export const selectFilteredUsers = createSelector(
   selectUsersState,
   (state: UsersState) => state.filteredUsers
 );
+
+export const selectUsersLoaded = createSelector(
+  selectUsersState,
+  (state: UsersState) => state.usersLoaded
+)
