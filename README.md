@@ -3,6 +3,8 @@
 
 This is a simple Angular-based application that demonstrates various concepts such as state management using NgRx, reactive forms, and Angular Material for UI components.
 
+The application has been evaluated using the WAVE tool to verify accessibility compliance.
+
 ---
 
 ## Getting Started

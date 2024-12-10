@@ -9,7 +9,7 @@ import { UserFilterService } from 'src/app/services/user-filter.service';
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { User } from 'src/app/models/user';
-import { filterUsers, loadUsers } from 'src/app/store/actions/users.actions';
+import { filterUsers } from 'src/app/store/actions/users.actions';
 
 describe('UserDashboardComponent', () => {
   let component: UserDashboardComponent;
@@ -72,13 +72,11 @@ describe('UserDashboardComponent', () => {
     });
   });
 
-  it('should load users on init', () => {
-    const dispatchSpy = mockStore.dispatch;
+  it('should start listen to filter changes on init', () => {
     const listenToFiltersChangesSpy = spyOn(component, 'listenToFiltersChanges');
 
     component.ngOnInit();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(loadUsers());
     expect(listenToFiltersChangesSpy).toHaveBeenCalled();
   });
 

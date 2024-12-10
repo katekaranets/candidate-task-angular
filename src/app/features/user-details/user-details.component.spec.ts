@@ -11,12 +11,13 @@ import { User } from 'src/app/models/user';
 import { UserRole } from 'src/app/models/role';
 import { UserStatus } from 'src/app/models/status';
 import { updateUser } from 'src/app/store/actions/users.actions';
+import { AppState } from 'src/app/store/app.state';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
-  let storeMock: any; 
-  let activatedRouteMock: any;
+  let storeMock: Partial<Store<AppState>>; 
+  let activatedRouteMock: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   let debugElement: DebugElement;
 
   const mockUser: User = {

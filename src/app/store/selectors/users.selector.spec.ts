@@ -1,4 +1,4 @@
-import { selectUsersState, selectUsersList, selectCurrentUser, selectFilteredUsers } from './users.selector';
+import { selectUsersState, selectUsersList, selectFilteredUsers } from './users.selector';
 import { AppState } from '../app.state';
 import { UsersState } from '../reducers/users.reducer';
 import { UserRole } from 'src/app/models/role';
@@ -20,11 +20,18 @@ describe('Users Selectors', () => {
         name: 'Jane Smith',
         email: 'jane@example.com',
         role: UserRole.DataEngineer,
-        status: UserStatus.Active, joining_date: 1620691200000
-
+        status: UserStatus.Active,
+        joining_date: 1620691200000
       },
     ],
-    currentUserId: 1,
+    user: {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: UserRole.DataEngineer,
+      status: UserStatus.Active,
+      joining_date: 1620691200000
+    },
     filteredUsers: [
       {
         id: 1,
@@ -42,7 +49,8 @@ describe('Users Selectors', () => {
       status: ''
     },
     error: null,
-    loading: false
+    loading: false,
+    usersLoaded: false
   };
 
   const appState: AppState = {
@@ -57,20 +65,6 @@ describe('Users Selectors', () => {
   it('should select the list of users', () => {
     const result = selectUsersList.projector(initialUsersState);
     expect(result).toEqual(initialUsersState.users);
-  });
-
-  it('should select the current user when currentUserId is set', () => {
-    const result = selectCurrentUser.projector(initialUsersState);
-    expect(result).toEqual(initialUsersState.users[0]);
-  });
-
-  it('should return null for current user when currentUserId is not set', () => {
-    const stateWithoutCurrentUser: UsersState = {
-      ...initialUsersState,
-      currentUserId: null,
-    };
-    const result = selectCurrentUser.projector(stateWithoutCurrentUser);
-    expect(result).toBeNull();
   });
 
   it('should select filtered users', () => {
